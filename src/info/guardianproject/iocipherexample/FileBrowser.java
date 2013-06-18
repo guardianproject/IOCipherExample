@@ -104,6 +104,8 @@ public class FileBrowser extends ListActivity {
 			}
 		} finally {
 			in.close();
+			out.flush();
+			out.close();
 		}
 	}
 
