@@ -71,6 +71,13 @@ public class FileBrowser extends ListActivity {
         vfs = new VirtualFileSystem(dbFile);
         // TODO don't use a hard-coded password! prompt for the password
         vfs.mount("my fake password");
+
+        // generate some files to have something to see
+        if (!new File("/dir0").exists())
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 4; j++)
+                    new File("/dir" + i + "/subdir" + j).mkdirs();
+
         getFileList(root);
     }
 
