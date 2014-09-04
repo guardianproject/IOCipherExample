@@ -5,10 +5,13 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -89,12 +92,30 @@ public class FileBrowser extends ListActivity {
             vfs.unmount();
     }
 
+    String getFileNameFromURI(Context context, Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = {
+                    MediaStore.Images.Media.DATA
+            };
+            cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            String[] elements = cursor.getString(column_index).split("/");
+            return elements[elements.length - 1];
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
     private void handleSendUri(Uri dataUri) {
         try {
             ContentResolver cr = getContentResolver();
             InputStream in = cr.openInputStream(dataUri);
             Log.i(TAG, "incoming URI: " + dataUri.toString());
-            String fileName = dataUri.getLastPathSegment();
+            String fileName = getFileNameFromURI(getApplicationContext(), dataUri);
             File f = new File("/" + fileName);
             BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(f));
             readBytesAndClose(in, out);
