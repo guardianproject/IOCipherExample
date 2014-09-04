@@ -27,6 +27,7 @@ import info.guardianproject.iocipher.FileOutputStream;
 import info.guardianproject.iocipher.VirtualFileSystem;
 
 import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -75,6 +76,25 @@ public class FileBrowser extends ListActivity {
         // TODO don't use a hard-coded password! prompt for the password
         if (!vfs.isMounted())
             vfs.mount("my fake password");
+
+        File sample = new File("/alberti_cipher_disk.jpg");
+        if (!sample.exists()) {
+            try {
+                InputStream in = getResources().openRawResource(R.raw.alberti_cipher_disk);
+                OutputStream out = new FileOutputStream(sample);
+                byte[] buffer = new byte[8192];
+                int len;
+                while ((len = in.read(buffer)) != -1) {
+                    out.write(buffer, 0, len);
+                }
+                in.close();
+                out.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         // generate some files to have something to see
         if (!new File("/dir0").exists())
