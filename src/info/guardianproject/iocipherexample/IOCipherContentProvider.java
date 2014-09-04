@@ -2,15 +2,6 @@ package info.guardianproject.iocipherexample;
 
 // inspired by https://github.com/commonsguy/cw-omnibus/tree/master/ContentProvider/Pipe
 
-import info.guardianproject.iocipher.File;
-import info.guardianproject.iocipher.FileInputStream;
-
-import java.io.BufferedInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -19,6 +10,15 @@ import android.os.ParcelFileDescriptor;
 import android.os.ParcelFileDescriptor.AutoCloseOutputStream;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
+
+import info.guardianproject.iocipher.File;
+import info.guardianproject.iocipher.FileInputStream;
+
+import java.io.BufferedInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class IOCipherContentProvider extends ContentProvider {
 	public static final String TAG = "IOCipherContentProvider";

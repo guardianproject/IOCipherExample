@@ -1,16 +1,5 @@
 package info.guardianproject.iocipherexample;
 
-import info.guardianproject.iocipher.File;
-import info.guardianproject.iocipher.FileOutputStream;
-import info.guardianproject.iocipher.VirtualFileSystem;
-
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.ActivityNotFoundException;
@@ -28,6 +17,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import info.guardianproject.iocipher.File;
+import info.guardianproject.iocipher.FileOutputStream;
+import info.guardianproject.iocipher.VirtualFileSystem;
+
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileBrowser extends ListActivity {
 	private final static String TAG = "FileBrowser";
