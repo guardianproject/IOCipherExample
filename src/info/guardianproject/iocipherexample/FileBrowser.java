@@ -37,7 +37,6 @@ public class FileBrowser extends ListActivity {
     private List<String> path = null;
     private TextView fileInfo;
     private String[] items;
-    private String dbFile;
     private String root = "/";
     private VirtualFileSystem vfs;
 
@@ -62,15 +61,17 @@ public class FileBrowser extends ListActivity {
 
         setContentView(R.layout.main);
         fileInfo = (TextView) findViewById(R.id.info);
-        dbFile = getDir("vfs", MODE_PRIVATE).getAbsolutePath() + "/myfiles.db";
+
+        vfs = VirtualFileSystem.get();
+        vfs.setContainerPath(getDir("vfs", MODE_PRIVATE).getAbsolutePath() + "/myfiles.db");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        vfs = new VirtualFileSystem(dbFile);
         // TODO don't use a hard-coded password! prompt for the password
-        vfs.mount("my fake password");
+        if (!vfs.isMounted())
+            vfs.mount("my fake password");
 
         // generate some files to have something to see
         if (!new File("/dir0").exists())
@@ -84,7 +85,8 @@ public class FileBrowser extends ListActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        vfs.unmount();
+        if (vfs.isMounted())
+            vfs.unmount();
     }
 
     private void handleSendUri(Uri dataUri) {
