@@ -15,7 +15,6 @@ import android.webkit.MimeTypeMap;
 import info.guardianproject.iocipher.File;
 import info.guardianproject.iocipher.FileInputStream;
 
-import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,14 +42,15 @@ public class IOCipherContentProvider extends ContentProvider {
     public ParcelFileDescriptor openFile(Uri uri, String mode)
             throws FileNotFoundException {
         ParcelFileDescriptor[] pipe = null;
-        BufferedInputStream in = null;
+        InputStream in = null;
 
         try {
             pipe = ParcelFileDescriptor.createPipe();
             String path = uri.getPath();
-            in = new BufferedInputStream(new FileInputStream(new File(path)));
-            new PipeFeederThread(in,
-                    new AutoCloseOutputStream(pipe[1])).start();
+            Log.i(TAG, "streaming " + path);
+            // BufferedInputStream could help, AutoCloseOutputStream conflicts
+            in = new FileInputStream(new File(path));
+            new PipeFeederThread(in, new AutoCloseOutputStream(pipe[1])).start();
         } catch (IOException e) {
             Log.e(TAG, "Error opening pipe", e);
             throw new FileNotFoundException("Could not open pipe for: "
