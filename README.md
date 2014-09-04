@@ -7,6 +7,9 @@ virtual disks for Android.  This app aims to show the most basic working
 examples of how to use IOCipher for learning the basics.  It does not show
 best practices for things like password management.
 
+IOCipher was designed to be used with the CacheWord library for password/key
+management:
+https://github.com/guardianproject/cacheword
 
 Please report bugs here:
 https://dev.guardianproject.info/projects/iocipher/issues

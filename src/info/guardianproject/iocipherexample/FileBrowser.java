@@ -73,7 +73,11 @@ public class FileBrowser extends ListActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // TODO don't use a hard-coded password! prompt for the password
+        /*
+         * do NOT use a hard-coded password! Either prompt the user for the
+         * password, or use the CacheWord library to handle password prompting
+         * and caching.  https://github.com/guardianproject/cacheword
+         */
         if (!vfs.isMounted())
             vfs.mount("my fake password");
 
