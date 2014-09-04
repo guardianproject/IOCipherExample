@@ -47,7 +47,8 @@ public class IOCipherContentProvider extends ContentProvider {
 
         try {
             pipe = ParcelFileDescriptor.createPipe();
-            in = new BufferedInputStream(new FileInputStream(new File("/test.pdf")));
+            String path = uri.getPath();
+            in = new BufferedInputStream(new FileInputStream(new File(path)));
             new PipeFeederThread(in,
                     new AutoCloseOutputStream(pipe[1])).start();
         } catch (IOException e) {
