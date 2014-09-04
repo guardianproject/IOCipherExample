@@ -1,2 +1,7 @@
 bin/
 gen/
+
+# ignore things from `android update`
+build.xml
+local.properties
+proguard-project.txt
